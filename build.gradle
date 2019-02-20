@@ -1,14 +1,44 @@
+import de.gesellix.gradle.docker.tasks.*
+
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "de.gesellix:gradle-docker-plugin:2018-01-30T22-14-21"
+    }
+}
+
 plugins {
     id 'java'
     id 'idea'
 }
+
+apply plugin: "de.gesellix.docker"
 
 repositories {
     jcenter()
 }
 
 dependencies {
-    implementation 'com.google.guava:guava:27.0.1-jre'
-
     testImplementation 'junit:junit:4.12'
+}
+
+task startStubs(type: DockerContainerTask) {
+
+    description 'Start wiremock server container'
+
+    image = "rodolpheche/wiremock"
+    containerName = "wiremock-service"
+    targetState = DockerContainerTask.State.RELOADED
+    ports = ["9999:8080"]
+    volumes = ["$rootDir/stubs/wiremock:/home/wiremock"]
+}
+
+task stopStubs(type: DockerStopTask) {
+    description 'Stop wiremock server container'
+
+    containerId = "wiremock-service"
 }
