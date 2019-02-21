@@ -23,7 +23,16 @@ repositories {
 }
 
 dependencies {
-    testImplementation 'junit:junit:4.12'
+    implementation 'org.hamcrest:hamcrest:2.1'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.9.8'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.4.0'
+    testRuntime 'org.junit.jupiter:junit-jupiter-engine:5.4.0'
+    testImplementation 'io.rest-assured:rest-assured:3.3.0'
+
+    compileOnly 'org.projectlombok:lombok:1.18.6'
+    annotationProcessor 'org.projectlombok:lombok:1.18.6'
+
 }
 
 task startStubs(type: DockerContainerTask) {
